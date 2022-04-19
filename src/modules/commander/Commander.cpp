@@ -2175,6 +2175,18 @@ Commander::run()
 
 			// Only take actions if armed
 			if (_armed.armed) {
+
+
+				if (_vehicle_land_detected.freefall && !_throw_occured) {
+					PX4_INFO("Throw mode activated ");
+					action_request_s requestEngage;
+					requestEngage.source = action_request_s::SOURCE_RC_SWITCH;
+					requestEngage.action = action_request_s::ACTION_UNKILL;
+					executeActionRequest(requestEngage);
+					send_vehicle_command(vehicle_command_s::VEHICLE_CMD_DO_SET_MODE, 1, PX4_CUSTOM_MAIN_MODE_POSCTL);
+
+				}
+
 				if (!was_landed && _vehicle_land_detected.landed) {
 					mavlink_log_info(&_mavlink_log_pub, "Landing detected\t");
 					events::send(events::ID("commander_landing_detected"), events::Log::Info, "Landing detected");
@@ -4463,3 +4475,4 @@ The commander module contains the state machine for mode switching and failsafe 
 
 	return 1;
 }
+
