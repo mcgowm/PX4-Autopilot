@@ -389,6 +389,7 @@ private:
 	bool		_should_set_home_on_takeoff{true};
 	bool		_system_power_usb_connected{false};
 
+    	bool 		_throw_occured{false};
 	geofence_result_s	_geofence_result{};
 	vehicle_land_detected_s	_vehicle_land_detected{};
 	safety_s		_safety{};
